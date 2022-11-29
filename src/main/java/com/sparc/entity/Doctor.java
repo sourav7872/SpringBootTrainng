@@ -1,5 +1,7 @@
 package com.sparc.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +13,12 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="doctor_tab",schema = "healthcare")
-public class Doctor {
+public class Doctor implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@Column(name="doc_id_col")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
