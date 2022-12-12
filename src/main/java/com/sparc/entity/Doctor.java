@@ -51,7 +51,7 @@ public class Doctor implements Serializable {
 	
 	//----------Association Mapping------------------
 	@ManyToOne
-	@JoinColumn(name="spec_id_fk_col")
+	@JoinColumn(name="spec_id_fk_col",nullable = false)
 	private Specialization specialization; //HAS-A
 
 

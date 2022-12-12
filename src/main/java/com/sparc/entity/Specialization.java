@@ -59,4 +59,5 @@ public class Specialization {
 		this.specNote = specNote;
 	}
 
+	
 }

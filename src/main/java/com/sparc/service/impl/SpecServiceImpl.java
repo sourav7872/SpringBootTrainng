@@ -1,6 +1,7 @@
 package com.sparc.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.sparc.entity.Specialization;
@@ -32,7 +33,7 @@ public class SpecServiceImpl implements ISpecService {
 	}
 
 	@Override
-	public String saveSpec(SpecRequest request) {
+	public String saveSpec(SpecRequest  request) {
 		try {
 			Specialization addData = new Specialization();
 			addData.setSpecCode(request.getSpecCode());
