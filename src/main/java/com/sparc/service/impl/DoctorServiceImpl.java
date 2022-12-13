@@ -1,5 +1,7 @@
 package com.sparc.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +52,40 @@ public class DoctorServiceImpl implements IDoctorService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "Error";
+		}
+	}
+
+	@Override
+	public String saveAllDoc(List<DoctorRequest> request) {
+		List<Doctor> addDataToDoc = new ArrayList<Doctor>();
+		try {
+			request.forEach(x -> {
+				Doctor addData = new Doctor();
+				addData.setAddress(x.getAddress());
+				addData.setEmail(x.getEmail());
+				addData.setFirstName(x.getFirstName());
+				addData.setGender(x.getGender());
+				addData.setLastName(x.getLastName());
+				addData.setMobile(x.getMobile());
+				addData.setNote(x.getNote());
+				addData.setPhotoLoc(x.getPhotoLoc());
+				// addData.setSpecialization(request.getSpecId());
+				/*
+				 * Optional<Specialization> opt = specRepo.findById(x.getSpecId()); if
+				 * (opt.isPresent()) { Specialization spe = opt.get();
+				 * addData.setSpecialization(spe); }
+				 */
+				addData.setSpecialization(specRepo.findById(x.getSpecId()).get());
+				addDataToDoc.add(addData);
+			});
+			List<Doctor> saveAll = doctorRepo.saveAll(addDataToDoc);
+			if (saveAll.size() != 0)
+				return "succes";
+			else
+				return "error";
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
 		}
 	}
 
