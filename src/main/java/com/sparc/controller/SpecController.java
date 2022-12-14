@@ -5,11 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sparc.entity.Specialization;
@@ -64,14 +67,46 @@ public class SpecController {
 	 * 
 	 * }
 	 */
-	
-	@GetMapping("/getSpecDataById/{docId}")
-	public ResponseEntity<?> getSpecDataById(@PathVariable(name ="docId") Long id) {
+
+	@GetMapping("/getSpecDataById/{specId}")
+	public ResponseEntity<?> getSpecDataById(@PathVariable(name = "specId") Long id) {
 		Specialization spec = specService.getSpecDataById(id);
 		if (spec != null)
 			return ResponseEntity.ok(spec);
 		else
 			return new ResponseEntity<>(new ApiMessageResponse("Invalid Id"), HttpStatus.NOT_FOUND);
+	}
+
+	@GetMapping("/getSpecDataByIdUsingRP")
+	public ResponseEntity<?> getSpecDataByIdUsingRP(
+			@RequestParam(name = "specId", required = false, defaultValue = "2") Long id) {
+		Specialization spec = specService.getSpecDataByIdUsingRP(id);
+		if (spec != null)
+			return ResponseEntity.ok(spec);
+		else
+			return new ResponseEntity<>(new ApiMessageResponse("Invalid Id"), HttpStatus.NOT_FOUND);
+	}
+
+	@PutMapping("/updateSpecDataBySpecId")
+	public ResponseEntity<?> updateSpecDataBySpecId(@RequestBody Specialization spec) {
+		String message = specService.updateSpecDataBySpecId(spec);
+		if (message.equals("success"))
+			return new ResponseEntity<>(new ApiMessageResponse(message), HttpStatus.OK);
+		else if (message.equals("invalidId"))
+			return new ResponseEntity<>(new ApiMessageResponse("InvalidId"), HttpStatus.NOT_FOUND);
+
+		return new ResponseEntity<>(new ApiMessageResponse("Problem In Execution"), HttpStatus.BAD_REQUEST);
+	}
+
+	@DeleteMapping("/deleteSpecDataById/{id}")
+	public ResponseEntity<?> deleteSpecDataById(@PathVariable Long id) {
+		String message = specService.deleteSpecDataById(id);
+		if (message.equals("success"))
+			return new ResponseEntity<>(new ApiMessageResponse(message), HttpStatus.OK);
+		else if (message.equals("invalidId"))
+			return new ResponseEntity<>(new ApiMessageResponse("InvalidId"), HttpStatus.NOT_FOUND);
+		else
+			return new ResponseEntity<>(new ApiMessageResponse("Problem In Execution"), HttpStatus.BAD_REQUEST);
 
 	}
 

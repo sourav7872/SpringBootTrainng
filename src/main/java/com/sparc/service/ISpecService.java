@@ -17,4 +17,10 @@ public interface ISpecService {
 
 	Specialization getSpecDataById(Long id);
 
+	Specialization getSpecDataByIdUsingRP(Long id);
+
+	String updateSpecDataBySpecId(Specialization spec);
+
+	String deleteSpecDataById(Long id);
+
 }

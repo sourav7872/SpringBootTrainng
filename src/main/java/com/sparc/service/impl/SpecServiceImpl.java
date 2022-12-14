@@ -3,6 +3,7 @@ package com.sparc.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,7 +23,7 @@ public class SpecServiceImpl implements ISpecService {
 	@Override
 	public String saveSpec(Specialization spec) {
 		try {
-
+			spec.setActiveStatus(true);
 			Long id = specRepo.save(spec).getId();
 			// return id != null ? "success" : "error";
 			if (id != null)
@@ -43,6 +44,7 @@ public class SpecServiceImpl implements ISpecService {
 			addData.setSpecCode(request.getSpecCode());
 			addData.setSpecName(request.getSpecName());
 			addData.setSpecNote(request.getSpecNote());
+			addData.setActiveStatus(true);
 			Specialization save = specRepo.save(addData);
 			return save != null ? "success" : "error";
 		} catch (Exception e) {
@@ -60,6 +62,7 @@ public class SpecServiceImpl implements ISpecService {
 				addData.setSpecCode(x.getSpecCode());
 				addData.setSpecName(x.getSpecName());
 				addData.setSpecNote(x.getSpecNote());
+				addData.setActiveStatus(true);
 				addDataToList.add(addData);
 			});
 			List<Specialization> saveAll = specRepo.saveAll(addDataToList);
@@ -76,7 +79,8 @@ public class SpecServiceImpl implements ISpecService {
 
 	@Override
 	public List<Specialization> getAllSpecData() {
-		List<Specialization> findAll = specRepo.findAll();
+		List<Specialization> findAll = specRepo.findAll().stream().filter(y -> y.getActiveStatus() ==true)
+				.collect(Collectors.toList());
 		return findAll;
 	}
 
@@ -87,6 +91,61 @@ public class SpecServiceImpl implements ISpecService {
 			return opt.get();
 		else
 			return null;
+	}
+
+	@Override
+	public Specialization getSpecDataByIdUsingRP(Long id) {
+		try {
+			Optional<Specialization> opt = specRepo.findById(id);
+			if (opt.isPresent())
+				return opt.get();
+			else
+				return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Override
+	public String updateSpecDataBySpecId(Specialization spec) {
+		try {
+			Optional<Specialization> opt = specRepo.findById(spec.getId());
+			if (opt.isPresent()) {
+				Specialization specData = opt.get();
+				if (spec.getSpecCode() != null)
+					specData.setSpecCode(spec.getSpecCode());
+				if (spec.getSpecName() != null)
+					specData.setSpecName(spec.getSpecName());
+				if (spec.getSpecNote() != null)
+					specData.setSpecNote(spec.getSpecNote());
+				Specialization save = specRepo.save(specData);
+				if (save != null)
+					return "success";
+				else
+					return "error";
+			} else
+				return "invalidId";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "InternalServerError";
+		}
+	}
+
+	@Override
+	public String deleteSpecDataById(Long id) {
+		Optional<Specialization> findById = specRepo.findById(id);
+		if (findById.isPresent()) {
+			Specialization specialization = findById.get();
+			//specRepo.delete(specialization);
+			specialization.setActiveStatus(false);
+			Specialization save = specRepo.save(specialization);
+			if (save != null)
+				return "success";
+			else
+				return "error";
+		} else
+			return "invalidId";
 	}
 
 }

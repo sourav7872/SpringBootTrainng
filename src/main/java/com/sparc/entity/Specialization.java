@@ -26,6 +26,9 @@ public class Specialization {
 
 	@Column(name = "spec_note_col", length = 250, nullable = false)
 	private String specNote;
+	
+	@Column(name = "active_status")
+	private Boolean activeStatus;
 
 	public Long getId() {
 		return id;
@@ -57,6 +60,14 @@ public class Specialization {
 
 	public void setSpecNote(String specNote) {
 		this.specNote = specNote;
+	}
+
+	public Boolean getActiveStatus() {
+		return activeStatus;
+	}
+
+	public void setActiveStatus(Boolean activeStatus) {
+		this.activeStatus = activeStatus;
 	}
 
 	
