@@ -97,7 +97,8 @@ public class SpecController {
 
 		return new ResponseEntity<>(new ApiMessageResponse("Problem In Execution"), HttpStatus.BAD_REQUEST);
 	}
-
+	
+	
 	@DeleteMapping("/deleteSpecDataById/{id}")
 	public ResponseEntity<?> deleteSpecDataById(@PathVariable Long id) {
 		String message = specService.deleteSpecDataById(id);
@@ -107,7 +108,17 @@ public class SpecController {
 			return new ResponseEntity<>(new ApiMessageResponse("InvalidId"), HttpStatus.NOT_FOUND);
 		else
 			return new ResponseEntity<>(new ApiMessageResponse("Problem In Execution"), HttpStatus.BAD_REQUEST);
-
 	}
+	
+	@GetMapping("/getAllSpecBySpecCode/{specCode}")
+	public ResponseEntity<?>getAllSpecBySpecCode(@PathVariable String specCode){
+		List<Specialization>data=specService.getAllSpecBySpecCode(specCode);
+		if(data.size()!=0)
+			return ResponseEntity.ok(data);
+		else
+			return new ResponseEntity<>(new ApiMessageResponse("InvalidId"), HttpStatus.NOT_FOUND);
+	}
+	
+	
 
 }

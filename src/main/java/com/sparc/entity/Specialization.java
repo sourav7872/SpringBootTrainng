@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Entity
 @Table(name = "spec_tab", schema = "healthcare")
+
 public class Specialization {
 
 	@Id // to make this col as primary key
@@ -18,7 +19,7 @@ public class Specialization {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "spec_code_col", length = 10, nullable = false, unique = true)
+	@Column(name = "spec_code_col", length = 10, nullable = false)
 	private String specCode;
 
 	@Column(name = "spec_name_col", length = 60, nullable = false, unique = true)

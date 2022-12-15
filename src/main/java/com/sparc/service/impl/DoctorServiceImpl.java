@@ -89,4 +89,15 @@ public class DoctorServiceImpl implements IDoctorService {
 		}
 	}
 
+	@Override
+	public List<Doctor> getAllDocBySpecid(Long id) {
+		try {
+			List<Doctor> list = doctorRepo.findByspecialization_id(id);
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
 }

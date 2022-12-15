@@ -23,4 +23,6 @@ public interface ISpecService {
 
 	String deleteSpecDataById(Long id);
 
+	List<Specialization> getAllSpecBySpecCode(String specCode);
+
 }

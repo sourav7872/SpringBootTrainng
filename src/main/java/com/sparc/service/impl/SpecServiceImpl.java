@@ -147,5 +147,19 @@ public class SpecServiceImpl implements ISpecService {
 		} else
 			return "invalidId";
 	}
+	
+	@Override
+	public List<Specialization> getAllSpecBySpecCode(String specCode) {
+		try {
+			//List<Specialization> list = specRepo.findAllSpecBySpecCode(specCode);
+			//List<Specialization> list = specRepo.findAllSpecBySpecCodeJpa(specCode);
+			List<Specialization> list = specRepo.findBySpecCode(specCode);
+			return list;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
 
 }
