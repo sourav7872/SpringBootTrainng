@@ -30,7 +30,7 @@ public class DoctorController {
 		return msg;
 	}
 
-	@PostMapping("/saveAllDoc")
+	@PostMapping(value = "/saveAllDoc",consumes = "text/html")
 	public ResponseEntity<?> saveAllDoc(@RequestBody List<DoctorRequest> request) {
 		String msg = docService.saveAllDoc(request);
 		return ResponseEntity.ok(new ApiMessageResponse(msg));
@@ -43,6 +43,12 @@ public class DoctorController {
 			return ResponseEntity.ok(list);
 		else
 			return new ResponseEntity<>(new ApiMessageResponse("notFOund"), HttpStatus.NOT_FOUND);
+	}
+
+	@GetMapping("/getAllDoc")
+	public ResponseEntity<?> getAllDoc() {
+		List<Doctor> list = docService.getAllDoc();
+		return ResponseEntity.ok(list);
 	}
 
 }

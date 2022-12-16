@@ -11,6 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 @AllArgsConstructor//for generating all argument constructor
 @NoArgsConstructor
 @RequiredArgsConstructor
+//@JsonIncludeProperties(value = {"firstName","lastName"})
 public class Doctor implements Serializable {
 	/**
 	 * 
@@ -65,6 +69,8 @@ public class Doctor implements Serializable {
 	//----------Association Mapping------------------
 	@ManyToOne
 	@JoinColumn(name="spec_id_fk_col",nullable = false)
+	@JsonIncludeProperties(value = {"id","specName"})
+	//@JsonIgnore
 	private Specialization specialization; //HAS-A
 
 

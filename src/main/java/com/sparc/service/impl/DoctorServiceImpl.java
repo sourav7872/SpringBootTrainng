@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.sparc.entity.Doctor;
@@ -98,6 +100,16 @@ public class DoctorServiceImpl implements IDoctorService {
 			e.printStackTrace();
 			throw e;
 		}
+	}
+	
+	@Override
+	public List<Doctor> getAllDoc() {
+		//return doctorRepo.findAll(Sort.by(Direction.ASC,"firstName"));
+		 List<Doctor> findAll = doctorRepo.findAll(Sort.by(Direction.ASC,"firstName"));
+		 findAll.sort((p1,p2)->p1.getFirstName().compareTo(p2.getFirstName()));//for sorting the data in asc order 
+		// findAll.sort((p1,p2)->p2.getFirstName().compareTo(p1.getFirstName()));//for sorting the data in desc order 
+		 return findAll;
+		
 	}
 
 }

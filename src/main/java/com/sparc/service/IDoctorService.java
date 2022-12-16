@@ -13,4 +13,6 @@ public interface IDoctorService {
 
 	List<Doctor> getAllDocBySpecid(Long id);
 
+	List<Doctor> getAllDoc();
+
 }
